@@ -1,14 +1,28 @@
 /*
   Hacks
 */
-
 .spi{
-  float: left;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    vertical-align: center;
+    width: 50%;
 }
 
-.sp{
-  width: 75%;
-  font-size: 22px;
+@media (min-width: 768px) {
+    .spi{
+        width: 23%;
+        float: left;
+    }
+
+    .sp{
+      width: 75%;
+      font-size: 22px;
+    }
+}
+@media (min-width: 990px) {
+
 }
 
 .titleDiv{
