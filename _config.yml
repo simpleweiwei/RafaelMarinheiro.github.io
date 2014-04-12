@@ -1,3 +1,12 @@
-name: Rafael Marinheiro
-markdown: redcarpet
-pygments: true
+title:        Rafael Marinheiro
+tagline:      'Rafael Marinheiro'
+description:  'Random Memories of a Computer Scientist'
+url:          http://rafaelmarinheiro.com
+author:
+  name:       'Rafael Marinheiro'
+  email:      'rafael.fariasmarinheiro@gmail.com'
+markdown:     rdiscount
+permalink:    pretty
+pygments:     true
+paginate:     5
+paginate_path: "blog/page:num"
