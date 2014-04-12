@@ -5,7 +5,7 @@ url:          http://rafaelmarinheiro.com
 author:
   name:       'Rafael Marinheiro'
   email:      'rafael.fariasmarinheiro@gmail.com'
-markdown:     rdiscount
+markdown:     kramdown
 permalink:    pretty
 pygments:     true
 paginate:     5
