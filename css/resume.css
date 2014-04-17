@@ -3,7 +3,7 @@
 }
 
 #page-wrap h1 {
-	width: 800px;
+	width: auto;
 	margin: 0 0 2% 0;
 	padding: 0 0 2% 0;
 	font-size: 40px;
@@ -15,10 +15,9 @@
 #page-wrap h2 {
 	font-size: 20px;
 	margin: 0 0 6px 0;
-	position: relative;
 }
 #page-wrap h2 span {
-	margin: 5px 0 16px 0;
+	margin: 5px 0 0.75% 0;
 	text-align: center;
 	float: right;
 	bottom: 0;
@@ -50,15 +49,13 @@
 
 dt { font-style: italic;
 		font-weight: bold;
-	font-size: 18px;
+		padding: 0 3.25% 0 0;
+		width: 18%;
 	text-align: right;
 	padding: 0 26px 0 0;
-	width: 150px;
 	float: left;
-	height: 100px;
-	border-right: 1px solid #999;
  }
-dd { width: 600px;
+dd { width: 90%;
 		float: right;
 }
 dd p{font-size: 16px}
@@ -66,27 +63,6 @@ dd.clear { float: none;
 		margin: 0;
 	height: 15px;
 	}
-
-@media (min-width: 768px) {
-  #page-wrap {
-    width: auto;
-  }
-
-  #page-wrap h2 span {
-	margin: 5px 0 0.75% 0;
-	}
-	#page-wrap h2 {
-	font-size: 20px;
-	margin: 0 0 6px 0;
-	}
-
-	dt {
-		padding: 0 3.25% 0 0;
-		width: 18%;
-	}
-
-	dd { width: 74%};
-}
 
 ul.double{
 	-moz-column-count: 2;
@@ -98,23 +74,63 @@ ul.double{
 }
 
 ul.triple{
-	-moz-column-count: 3;
-    -webkit-column-count: 3;
-    column-count: 3;
+	-moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
 }
 
 ul.quad{
--moz-column-count: 4;
-    -webkit-column-count: 4;
-    column-count: 4;
+-moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
 }
 ul.five{
--moz-column-count: 5;
-    -webkit-column-count: 5;
-    column-count: 5;
+-moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-count: 3;
 }
 ul.six{
 -moz-column-count: 6;
     -webkit-column-count: 6;
     column-count: 6;
+}
+
+@media (min-width: 768px) {
+  	dt {
+		height: 100px;
+		border-right: 1px solid #999;
+	}
+
+	dd { width: 74%};
+
+	ul.double{
+		-moz-column-count: 2;
+	    /*-moz-column-gap: 20px;*/
+	    -webkit-column-count: 2;
+	    /*-webkit-column-gap: 20px;*/
+	    column-count: 2;
+	    /*column-gap: 20px;*/
+	}
+
+	ul.triple{
+		-moz-column-count: 3;
+	    -webkit-column-count: 3;
+	    column-count: 3;
+	}
+
+	ul.quad{
+	-moz-column-count: 4;
+	    -webkit-column-count: 4;
+	    column-count: 4;
+	}
+	ul.five{
+	-moz-column-count: 5;
+	    -webkit-column-count: 5;
+	    column-count: 5;
+	}
+	ul.six{
+	-moz-column-count: 6;
+	    -webkit-column-count: 6;
+	    column-count: 6;
+	}
 }
