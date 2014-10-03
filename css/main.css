@@ -28,3 +28,68 @@
 .titleDiv{
   clear: both;
 }
+
+/* polaroid image */
+.polaroid {
+    background-color: #f2f2f2;
+    display: inline-block;
+    /*margin: 0;*/
+    padding: 6px 6px 18px;
+    position: relative;
+}
+.polaroid:before {
+    background-color: #f2f2f2;
+    content: '';
+    display: block;
+    height: 30px;
+    position: absolute;
+    bottom: 2.67%;
+    left: 0;
+    width: 50%;
+    z-index: -1;
+    transform: rotate(-5deg);
+    -webkit-transform: rotate(-5deg);
+    -moz-transform: rotate(-5deg);
+    -o-transform: rotate(-5deg);
+    -ms-transform: rotate(-5deg);
+    box-shadow: 0 9px 6px -2px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0 9px 6px -2px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0 9px 6px -2px rgba(0,0,0,0.4);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+.polaroid:after {
+    background-color: #f2f2f2;
+    content: '';
+    display: block;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    bottom: 2.67%;
+    width: 50%;
+    z-index: -1;
+    transform: rotate(5deg);
+    -webkit-transform: rotate(5deg);
+    -moz-transform: rotate(5deg);
+    -o-transform: rotate(5deg);
+    -ms-transform: rotate(5deg);
+    box-shadow: 0 9px 6px -2px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0 9px 6px -2px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0 9px 6px -2px rgba(0,0,0,0.4);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+figure, figure img { margin-bottom: 1%; text-align: center; }
+figure img {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+figure figcaption{
+  text-align: center;
+  margin-top: 1px;
+}
