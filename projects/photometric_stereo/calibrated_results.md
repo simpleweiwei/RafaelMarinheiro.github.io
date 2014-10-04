@@ -1,5 +1,7 @@
 ---
 layout: default
+title: Photometric Stereo
+
 ---
 # Photometric Stereo - Calibrated Lights
 
