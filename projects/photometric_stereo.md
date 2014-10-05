@@ -176,9 +176,9 @@ Since $$B = A^TA$$ is symmetric, we can write $$B = \begin{pmatrix} a & b & c \\
 
 $$ 
 \left(\begin{smallmatrix}
-	\bar{L}_0^x\cdot \bar{L}_0^x & \bar{L}_0^x\cdot \bar{L}_0^y & \bar{L}_0^x\cdot \bar{L}_0^z & \bar{L}_0^y\cdot \bar{L}_0^y & \bar{L}_0^y\cdot \bar{L}_0^z & \bar{L}_0^z\cdot \bar{L}_0^z\\
+	\bar{L}_0^x\cdot \bar{L}_0^x & 2\bar{L}_0^x\cdot \bar{L}_0^y & 2\bar{L}_0^x\cdot \bar{L}_0^z & \bar{L}_0^y\cdot \bar{L}_0^y & 2\bar{L}_0^y\cdot \bar{L}_0^z & \bar{L}_0^z\cdot \bar{L}_0^z\\
 	\vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
-	\bar{L}_{m-1}^x\cdot \bar{L}_{m-1}^x & \bar{L}_{m-1}^x\cdot \bar{L}_{m-1}^y & \bar{L}_{m-1}^x\cdot \bar{L}_{m-1}^z & \bar{L}_{m-1}^y\cdot \bar{L}_{m-1}^y & \bar{L}_{m-1}^y\cdot \bar{L}_{m-1}^z & \bar{L}_{m-1}^z\cdot \bar{L}_{m-1}^z
+	\bar{L}_{m-1}^x\cdot \bar{L}_{m-1}^x & 2\bar{L}_{m-1}^x\cdot \bar{L}_{m-1}^y & 2\bar{L}_{m-1}^x\cdot \bar{L}_{m-1}^z & \bar{L}_{m-1}^y\cdot \bar{L}_{m-1}^y & 2\bar{L}_{m-1}^y\cdot \bar{L}_{m-1}^z & \bar{L}_{m-1}^z\cdot \bar{L}_{m-1}^z
 \end{smallmatrix}
 \right)
 \left(
