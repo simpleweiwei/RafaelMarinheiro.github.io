@@ -12,11 +12,11 @@
 	border-bottom: 1px solid #999;
 }
 
-#page-wrap h2 {
+#page-wrap .likeh2 {
 	font-size: 20px;
 	margin: 0 0 6px 0;
 }
-#page-wrap h2 span {
+#page-wrap .likeh2 span {
 	margin: 5px 0 0.75% 0;
 	text-align: center;
 	float: right;
