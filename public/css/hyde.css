@@ -232,7 +232,17 @@ a:focus {
 .masthead {
   color: #fff;
   background-color: #2a2a2a;
+  text-align: center;
 }
+
+@media (min-width: 990px) {
+  .masthead {
+    text-align: left;
+  }
+}
+
+
+
 .masthead-inner {
   padding: 20px;
 }
@@ -243,7 +253,8 @@ a:focus {
 /* Masthead content */
 .masthead h1 {
   margin-top: 0;
-  font-family: "Abril Fatface";
+  font-size: 36px;
+  font-family: 'Libre Baskerville', serif;
 }
 .masthead .lead {
   margin-bottom: 0;
@@ -266,6 +277,15 @@ a:focus {
 }
 .colophon-links li {
   color: inherit;
+  display: inline-block;
+}
+
+.colophon-links br{
+  display: list-item;
+}
+
+.colophon hr{
+  margin-top: 20px;
 }
 
 /* Responsive masthead */
@@ -276,7 +296,6 @@ a:focus {
 }
 @media (min-width: 990px) {
   /* Fix the masthead to the side for impact and awesomeness */
-
   .masthead {
     position: fixed;
     top: 0;
@@ -294,14 +313,32 @@ a:focus {
   }
 
   .masthead h1 {
-    font-size: 48px;
+    font-size: 32px;
   }
   .colophon {
     margin-top: 40px;
   }
+
+  .colophon-links li {
+    display: block;
+  }
+
+  .colophon hr{
+    margin-top: 0px;
+  }
 }
 
+@media (min-width: 1100px) {
+  .masthead h1 {
+    font-size: 35px;
+  }
+}
 
+@media (min-width: 1280px) {
+  .masthead h1 {
+    font-size: 40px;
+  }
+}
 /* Container
  *
  * Align the contents of the site above the proper threshold with some margin-fu
