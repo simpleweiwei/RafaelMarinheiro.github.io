@@ -83,6 +83,19 @@
 }
 
 figure, figure img { margin-bottom: 1%; text-align: center; }
+
+.project-div{
+    text-align: center;
+}
+
+.project{
+    display: inline-block;
+    width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+}
+
 figure img {
     display: inline-block;
     margin-left: auto;
