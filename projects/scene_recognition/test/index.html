@@ -1,0 +1,308 @@
+
+
+<html>
+	<head>
+		<title>CS 6644 Assignment 2</title>
+	<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/projects/scene_recognition/styles/base.css">
+
+	  <!-- Icons -->
+	  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/touch-icon-144-precomposed.png">
+	  <link rel="shortcut icon" href="/public/favicon.png">
+
+</head>
+<body>
+	<div id="header" >
+		<div id="headersub">
+			<h1>Rafael Marinheiro<span style="color: #DE3737">(rf356)</span></h1>
+		</div>
+	</div>
+	<div class="container">
+
+	<h2>CS6644 / Assignment 2 / Scene Recognition with Bag of Words</h2>
+
+	<h3>Results in a table</h3>
+
+	<img width=80% src="/projects/scene_recognition/test/confusion_matrix.png">
+	
+	<p>
+	Accuracy (mean of diagonal of confusion matrix) is 100.00%
+	</p>
+
+	<table border=0 cellpadding=4 cellspacing=1>
+	<tr>
+	<th>Category name</th>
+	<th>Accuracy</th>
+	<th colspan=2>Sample training images</th>
+	<th colspan=2>Sample true positives</th>
+	<th colspan=2>False positives with true label</th>
+	<th colspan=2>False negatives with wrong predicted label</th>
+	</tr>
+	
+		<tr>
+			<td>bedroom</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/bedroom_image_0136.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/bedroom_image_0106.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/bedroom_image_0082.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/bedroom_image_0142.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>coast</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/coast_image_0108.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/coast_image_0290.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/coast_image_0042.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/coast_image_0085.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>forest</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/forest_image_0108.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/forest_image_0278.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/forest_image_0065.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/forest_image_0142.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>highway</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/highway_image_0227.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/highway_image_0181.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/highway_image_0121.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/highway_image_0104.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>industrial</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/industrial_image_0266.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/industrial_image_0097.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/industrial_image_0030.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/industrial_image_0027.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>insidecity</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/insidecity_image_0279.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/insidecity_image_0046.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/insidecity_image_0037.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/insidecity_image_0048.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>kitchen</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/kitchen_image_0163.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/kitchen_image_0139.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/kitchen_image_0035.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/kitchen_image_0116.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>livingroom</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/livingroom_image_0201.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/livingroom_image_0200.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/livingroom_image_0101.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/livingroom_image_0102.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>mountain</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/mountain_image_0169.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/mountain_image_0330.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/mountain_image_0021.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/mountain_image_0049.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>office</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/office_image_0197.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/office_image_0182.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/office_image_0027.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/office_image_0022.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>opencountry</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/opencountry_image_0087.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/opencountry_image_0363.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/opencountry_image_0060.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/opencountry_image_0012.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>store</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/store_image_0037.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/store_image_0191.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/store_image_0150.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/store_image_0099.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>street</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/street_image_0223.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/street_image_0072.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/street_image_0121.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/street_image_0018.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>suburb</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/suburb_image_0206.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/suburb_image_0112.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/suburb_image_0040.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/suburb_image_0074.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+		<tr>
+			<td>tallbuilding</td>
+			<td>100.00%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/tallbuilding_image_0049.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/test/thumbnails/tallbuilding_image_0284.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/tallbuilding_image_0065.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/test/thumbnails/tallbuilding_image_0007.jpg" width=120 height=75></td>
+			
+			
+			
+		</tr>
+	
+	<tr>
+	<th>Category name</th>
+	<th>Accuracy</th>
+	<th colspan=2>Sample training images</th>
+	<th colspan=2>Sample true positives</th>
+	<th colspan=2>False positives with true label</th>
+	<th colspan=2>False negatives with wrong predicted label</th>
+	</tr>
+	</table>
+	</center>
+</body>
+</html>

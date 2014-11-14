@@ -1,0 +1,428 @@
+
+
+<html>
+	<head>
+		<title>CS 6644 Assignment 2</title>
+	<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/projects/scene_recognition/styles/base.css">
+
+	  <!-- Icons -->
+	  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/touch-icon-144-precomposed.png">
+	  <link rel="shortcut icon" href="/public/favicon.png">
+
+</head>
+<body>
+	<div id="header" >
+		<div id="headersub">
+			<h1>Rafael Marinheiro<span style="color: #DE3737">(rf356)</span></h1>
+		</div>
+	</div>
+	<div class="container">
+
+	<h2>CS6644 / Assignment 2 / Scene Recognition with Bag of Words</h2>
+
+	<h3>Confusion Matrix</h3>
+
+	<img width=80% src="/projects/scene_recognition/sift_svm/confusion_matrix.png">
+	
+	<p>
+	Accuracy (mean of diagonal of confusion matrix) is 61.74%
+	</p>
+
+	<table border=0 cellpadding=4 cellspacing=1>
+	<tr>
+	<th>Category name</th>
+	<th>Accuracy</th>
+	<th colspan=2>Sample training images</th>
+	<th colspan=2>Sample true positives</th>
+	<th colspan=2>False positives with true label</th>
+	<th colspan=2>False negatives with wrong predicted label</th>
+	</tr>
+	
+		<tr>
+			<td>bedroom</td>
+			<td>48.28%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/bedroom_image_0072.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/bedroom_image_0076.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/bedroom_image_0066.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/bedroom_image_0124.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/bedroom_image_0274.jpg" width=120 height=75><br><small>store</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/bedroom_image_0150.jpg" width=120 height=75><br><small>kitchen</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/bedroom_image_0029.jpg" width=120 height=75><br><small>livingroom</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/bedroom_image_0138.jpg" width=120 height=75><br><small>livingroom</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>coast</td>
+			<td>65.77%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/coast_image_0066.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/coast_image_0310.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/coast_image_0099.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/coast_image_0097.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/coast_image_0351.jpg" width=120 height=75><br><small>opencountry</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/coast_image_0080.jpg" width=120 height=75><br><small>opencountry</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/coast_image_0323.jpg" width=120 height=75><br><small>opencountry</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/coast_image_0206.jpg" width=120 height=75><br><small>highway</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>forest</td>
+			<td>89.91%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/forest_image_0113.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/forest_image_0020.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/forest_image_0153.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/forest_image_0024.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/forest_image_0148.jpg" width=120 height=75><br><small>mountain</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/forest_image_0371.jpg" width=120 height=75><br><small>opencountry</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/forest_image_0210.jpg" width=120 height=75><br><small>mountain</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/forest_image_0297.jpg" width=120 height=75><br><small>mountain</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>highway</td>
+			<td>71.25%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/highway_image_0047.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/highway_image_0076.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/highway_image_0030.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/highway_image_0240.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/highway_image_0053.jpg" width=120 height=75><br><small>industrial</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/highway_image_0198.jpg" width=120 height=75><br><small>opencountry</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/highway_image_0229.jpg" width=120 height=75><br><small>opencountry</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/highway_image_0002.jpg" width=120 height=75><br><small>mountain</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>industrial</td>
+			<td>33.65%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/industrial_image_0150.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/industrial_image_0287.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/industrial_image_0056.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/industrial_image_0156.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/industrial_image_0079.jpg" width=120 height=75><br><small>street</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/industrial_image_0091.jpg" width=120 height=75><br><small>store</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/industrial_image_0020.jpg" width=120 height=75><br><small>store</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/industrial_image_0140.jpg" width=120 height=75><br><small>insidecity</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>insidecity</td>
+			<td>70.19%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/insidecity_image_0227.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/insidecity_image_0293.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/insidecity_image_0238.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/insidecity_image_0250.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/insidecity_image_0216.jpg" width=120 height=75><br><small>industrial</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/insidecity_image_0278.jpg" width=120 height=75><br><small>tallbuilding</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/insidecity_image_0137.jpg" width=120 height=75><br><small>street</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/insidecity_image_0063.jpg" width=120 height=75><br><small>store</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>kitchen</td>
+			<td>44.55%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/kitchen_image_0112.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/kitchen_image_0202.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/kitchen_image_0135.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/kitchen_image_0203.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/kitchen_image_0338.jpg" width=120 height=75><br><small>tallbuilding</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/kitchen_image_0246.jpg" width=120 height=75><br><small>industrial</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/kitchen_image_0053.jpg" width=120 height=75><br><small>livingroom</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/kitchen_image_0029.jpg" width=120 height=75><br><small>bedroom</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>livingroom</td>
+			<td>41.80%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/livingroom_image_0200.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/livingroom_image_0155.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/livingroom_image_0007.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/livingroom_image_0086.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/livingroom_image_0255.jpg" width=120 height=75><br><small>industrial</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/livingroom_image_0182.jpg" width=120 height=75><br><small>store</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/livingroom_image_0072.jpg" width=120 height=75><br><small>bedroom</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/livingroom_image_0055.jpg" width=120 height=75><br><small>kitchen</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>mountain</td>
+			<td>71.17%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/mountain_image_0071.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/mountain_image_0292.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/mountain_image_0356.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/mountain_image_0331.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/mountain_image_0235.jpg" width=120 height=75><br><small>highway</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/mountain_image_0210.jpg" width=120 height=75><br><small>forest</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/mountain_image_0197.jpg" width=120 height=75><br><small>forest</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/mountain_image_0089.jpg" width=120 height=75><br><small>highway</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>office</td>
+			<td>70.43%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/office_image_0173.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/office_image_0018.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/office_image_0040.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/office_image_0022.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/office_image_0027.jpg" width=120 height=75><br><small>kitchen</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/office_image_0087.jpg" width=120 height=75><br><small>livingroom</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/office_image_0029.jpg" width=120 height=75><br><small>bedroom</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/office_image_0108.jpg" width=120 height=75><br><small>livingroom</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>opencountry</td>
+			<td>59.35%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/opencountry_image_0124.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/opencountry_image_0043.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/opencountry_image_0120.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/opencountry_image_0126.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/opencountry_image_0135.jpg" width=120 height=75><br><small>coast</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/opencountry_image_0220.jpg" width=120 height=75><br><small>coast</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/opencountry_image_0381.jpg" width=120 height=75><br><small>highway</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/opencountry_image_0052.jpg" width=120 height=75><br><small>mountain</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>store</td>
+			<td>50.23%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/store_image_0279.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/store_image_0120.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/store_image_0113.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/store_image_0077.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/store_image_0087.jpg" width=120 height=75><br><small>insidecity</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/store_image_0226.jpg" width=120 height=75><br><small>suburb</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/store_image_0216.jpg" width=120 height=75><br><small>insidecity</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/store_image_0015.jpg" width=120 height=75><br><small>tallbuilding</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>street</td>
+			<td>57.29%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/street_image_0130.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/street_image_0164.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/street_image_0161.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/street_image_0291.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/street_image_0026.jpg" width=120 height=75><br><small>industrial</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/street_image_0216.jpg" width=120 height=75><br><small>tallbuilding</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/street_image_0144.jpg" width=120 height=75><br><small>store</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/street_image_0250.jpg" width=120 height=75><br><small>opencountry</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>suburb</td>
+			<td>78.01%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/suburb_image_0216.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/suburb_image_0237.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/suburb_image_0156.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/suburb_image_0101.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/suburb_image_0264.jpg" width=120 height=75><br><small>opencountry</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/suburb_image_0202.jpg" width=120 height=75><br><small>insidecity</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/suburb_image_0009.jpg" width=120 height=75><br><small>street</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/suburb_image_0120.jpg" width=120 height=75><br><small>store</small></td>
+			
+		</tr>
+	
+		<tr>
+			<td>tallbuilding</td>
+			<td>64.06%</td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/tallbuilding_image_0068.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightBlue><img src="/projects/scene_recognition/sift_svm/thumbnails/tallbuilding_image_0329.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/tallbuilding_image_0202.jpg" width=120 height=75></td>
+			
+				<td bgcolor=LightGreen><img src="/projects/scene_recognition/sift_svm/thumbnails/tallbuilding_image_0220.jpg" width=120 height=75></td>
+			
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/tallbuilding_image_0116.jpg" width=120 height=75><br><small>store</small></td>
+			
+				<td bgcolor=LightCoral><img src="/projects/scene_recognition/sift_svm/thumbnails/tallbuilding_image_0129.jpg" width=120 height=75><br><small>industrial</small></td>
+			
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/tallbuilding_image_0306.jpg" width=120 height=75><br><small>industrial</small></td>
+			
+				<td bgcolor=#FFBB55><img src="/projects/scene_recognition/sift_svm/thumbnails/tallbuilding_image_0016.jpg" width=120 height=75><br><small>store</small></td>
+			
+		</tr>
+	
+	<tr>
+	<th>Category name</th>
+	<th>Accuracy</th>
+	<th colspan=2>Sample training images</th>
+	<th colspan=2>Sample true positives</th>
+	<th colspan=2>False positives with true label</th>
+	<th colspan=2>False negatives with wrong predicted label</th>
+	</tr>
+	</table>
+	</center>
+</body>
+</html>
