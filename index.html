@@ -13,4 +13,53 @@ layout: default
 <div >
   <h1 class="titleDiv">About me</h1>
 	I am the kind of person who writes a @TODO in his "About me" section.
+
+  <div id="app">
+  	<script>
+		var start = null;
+		var app = null;
+		var canvas = null;
+
+		function rgbacolor(r, g, b, a){
+			return 'rgba(' + Math.floor(r) + ',' +
+                     Math.floor(g) + ',' + Math.floor(b) + ',' + Math.floor(a) + ')';
+		}
+
+		function draw(canvas, elapsed){
+			var w = canvas.width;
+			var h = canvas.height;
+			var context = canvas.getContext("2d");
+
+			var k = 10;
+
+			var dx = w/k;
+			var dy = h/k;
+			context.globalAlpha=0.2;
+			for(var i = 0; i < k; i++){
+				for(var j = 0; j < k; j++){
+					var r = 128 + 128*Math.sin(2*Math.PI*(elapsed + 100*(i+j))/1000.0);
+					context.fillStyle = rgbacolor(r, 0, 0, r);
+					context.fillRect(i*dx, j*dy, dx, dy);
+				}
+			}
+		}
+
+		function step(timestamp) {
+			if (!start) start = timestamp;
+			var elapsed = timestamp - start;
+			draw(canvas, elapsed);
+			// alert("uhuul");
+			window.requestAnimationFrame(step);
+		}
+
+  		window.onload = function() {
+  			alert("foi");
+  			app = document.getElementById("app");
+  			canvas = app.getElementsByClassName("app-canvas")[0];
+			window.requestAnimationFrame(step);
+		};
+  	</script>
+  	<canvas width="300" height="225" class="app-canvas">
+  	</canvas>
+  </div>
 </div>

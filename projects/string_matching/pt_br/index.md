@@ -154,35 +154,194 @@ dist[2*i+old]
 
 {% endhighlight %}
 
-# Testes e Resultados
+# Testes
 
-Testes foram executados com duas bases de dados do Pizza&Chilli: [Protein](http://pizzachili.dcc.uchile.cl/texts/protein/) e [DNA](http://pizzachili.dcc.uchile.cl/texts/dna/). Os testes foram realizados em um MacBook Pro Retina de 13 polegadas, modelo Late 2013, com um processador Intel Core i5 de 2.4GHz, 8GB de memória RAM DDR3 a 1600MHz rodando o sistema operacional OS X El Capitan. Todos os tempos foram medidos utilizando o comando ```time``` O programa foi compilado utilizando a versão 1.5 do compilador de Go. 
+Testes foram executados com duas bases de dados do [Pizza&Chilli Protein](http://pizzachili.dcc.uchile.cl/texts/protein/). Os testes foram realizados em um MacBook Pro Retina de 13 polegadas, modelo Late 2013, com um processador Intel Core i5 de 2.4GHz, 8GB de memória RAM DDR3 a 1600MHz rodando o sistema operacional OS X El Capitan. Todos os tempos foram medidos utilizando o comando ```time``` O programa foi compilado utilizando a versão 1.5 do compilador de Go. 
 
 Todos os experimentos foram feitos utilizando a flag ```-s```. Desse modo, a saída do algoritmo retorna apenas a lista dos matches, sem nenhuma informação adicional. O comando ```grep``` também é executado com a flag ```-o``` como controle
 
 Os experimentos e resultados serão detalhados a seguir:
 
-## Busca Exata - Um padrão
+### Padrões
 
-| Comando |     Agulha     |    Palheiro    | Ocorrências | Tempo Médio (Após 10 execuções) |
-| ------- | -------------- | -------------- | ----------: | ------------------------------: |
-| grep -o | WHEY           | proteins.50MB  |          19 |                          0.978s |
-| grep -o | WHEY           | proteins.100MB |          33 |                          1.962s |
-| grep -o | WHEY           | proteins.200MB |         113 |                          3.997s |
-| grep -o | WHEY           | proteins       |         424 |                         23.922s |
-| pmt -s  | WHEY           | proteins.50MB  |          19 |                          0.431s |
-| pmt -s  | WHEY           | proteins.100MB |          33 |                          0.856s |
-| pmt -s  | WHEY           | proteins.200MB |         113 |                          1.736s |
-| pmt -s  | WHEY           | proteins       |         424 |                         10.227s |
-| grep -o | PASPRSSRGAGPVP | proteins.50MB  |           2 |                          1.374s |
-| grep -o | PASPRSSRGAGPVP | proteins.100MB |           2 |                          2.832s |
-| grep -o | PASPRSSRGAGPVP | proteins.200MB |           2 |                          5.283s |
-| grep -o | PASPRSSRGAGPVP | proteins       |           3 |                         23.922s |
-| pmt -s  | PASPRSSRGAGPVP | proteins.50MB  |          19 |                          0.431s |
-| pmt -s  | PASPRSSRGAGPVP | proteins.100MB |          33 |                          0.856s |
-| pmt -s  | PASPRSSRGAGPVP | proteins.200MB |         113 |                          1.736s |
-| pmt -s  | PASPRSSRGAGPVP | proteins       |         424 |                         10.227s |
+|  ID |                       Agulha                       |
+| --- | :------------------------------------------------- |
+|   1 | WHEY                                               |
+|   2 | PASPRSSRGAGPVP                                     |
+|   3 | PASPRSSRGAGPVPCAAPPQRAVLASPRSVRGGPKPPGRGGARASGGAAG |
+|   4 | PASPRSSRGAGPVPCAAPPQRAVLASPRSVRGGPKPPGRGGARASGGAAA |
+|   5 | RAFAEL                                             |
+	
+### Busca Exata - Um padrão
 
+<div class="rfm-chart" id="chart_single_exact"></div>
+
+| Comando | Agulha |     Palheiro    | Ocorrências | Tempo Médio* |
+| ------- | ------ | --------------- | ----------: | -----------: |
+| grep -o |      1 | proteins.50MB   |          19 |       0.978s |
+| grep -o |      1 | proteins.100MB  |          33 |       1.962s |
+| grep -o |      1 | proteins.200MB  |         113 |       3.997s |
+| grep -o |      1 | proteins.1200MB |         424 |      23.922s |
+| pmt -s  |      1 | proteins.50MB   |          19 |       0.431s |
+| pmt -s  |      1 | proteins.100MB  |          33 |       0.856s |
+| pmt -s  |      1 | proteins.200MB  |         113 |       1.736s |
+| pmt -s  |      1 | proteins.1200MB |         424 |      10.227s |
+| grep -o |      2 | proteins.50MB   |           2 |       1.374s |
+| grep -o |      2 | proteins.100MB  |           2 |       2.832s |
+| grep -o |      2 | proteins.200MB  |           2 |       5.283s |
+| grep -o |      2 | proteins.1200MB |           3 |      32.138s |
+| pmt -s  |      2 | proteins.50MB   |           2 |       0.465s |
+| pmt -s  |      2 | proteins.100MB  |           2 |       0.947s |
+| pmt -s  |      2 | proteins.200MB  |           2 |       1.835s |
+| pmt -s  |      2 | proteins.1200MB |           3 |      10.367s |
+
+### Busca Exata - Múltiplos Padrões
+
+<div class="rfm-chart" id="chart_multiple_exact"></div>
+
+|  Comando  |   Agulha   |     Palheiro    | Ocorrências | Tempo Médio* |
+| --------- | ---------- | --------------- | ----------: | -----------: |
+| pmt -s -p | 1, 2, 3, 4 | proteins.50MB   |          24 |       0.564s |
+| pmt -s -p | 1, 2, 3, 4 | proteins.100MB  |          37 |       1.099s |
+| pmt -s -p | 1, 2, 3, 4 | proteins.200MB  |         117 |       2.192s |
+| pmt -s -p | 1, 2, 3, 4 | proteins.1200MB |         430 |      12.525s |
+| pmt -s -p | 1, 5       | proteins.50MB   |          26 |       0.580s |
+| pmt -s -p | 1, 5       | proteins.100MB  |          47 |       1.146s |
+| pmt -s -p | 1, 5       | proteins.200MB  |         142 |       2.288s |
+| pmt -s -p | 1, 5       | proteins.1200MB |         536 |      12.835s |
+
+### Busca Aproximada - Um padrão
+
+<div class="rfm-chart" id="chart_single_approximate"></div>
+
+|  Comando  | Distância | Agulha |     Palheiro    | Ocorrências | Tempo Médio* |
+| --------- | --------- | ------ | --------------- | ----------: | -----------: |
+| pmt -s -e |         1 |      5 | proteins.50MB   |        1376 |       2.283s |
+| pmt -s -p |         1 |      5 | proteins.100MB  |        2633 |       4.680s |
+| pmt -s -p |         1 |      5 | proteins.200MB  |        4706 |       9.202s |
+| pmt -s -p |         1 |      5 | proteins.1200MB |       23987 |      50.975s |
+| pmt -s -p |         4 |      2 | proteins.50MB   |          20 |       5.252s |
+| pmt -s -p |         4 |      2 | proteins.100MB  |          22 |      11.694s |
+| pmt -s -p |         4 |      2 | proteins.200MB  |          24 |      23.127s |
+| pmt -s -p |         4 |      2 | proteins.1200MB |          56 |      127.928 |
+
+### Busca Aproximada - Múltiplos Padrões
+
+A Busca Aproximada de Múltiplos padrões foi implementada simplesmente chamando várias vezes a Busca Aproximada de um único padrão. Logo, esperamos que o desempenho seja equivalente.
+
+# Conclusões
+
+Acreditamos que o resultado obtido foi satisfatório. Em todos os testes efetuados, a nossa implementação foi substancialmente mais rápida que a implementação do ```grep```. Além disso, o processo ```pmt``` nunca chegou a consumir mais que 400K de memória durante a sua execução, mostrando que ele de fato pode ser utilizado em palheiros arbitrariamente grandes com sucesso.
+
+Poderíamos ter utilizado um algoritmo mais eficiente para realizar a busca aproximada. Posteriormente, implementaremos uma versão do algoritmo [Bitap](https://en.wikipedia.org/wiki/Bitap_algorithm).
+
+<link rel="stylesheet" href="css/table.css">
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+	function drawGraphs(){
+		drawExactSingle();
+		drawExactMultiple();
+		drawApproximateSingle();
+	}
+
+	function drawExactSingle(){
+		var data = new google.visualization.DataTable();
+		data.addColumn('number', 'Tamanho (MB)')
+		data.addColumn('number', 'grep_agulha-1');
+		data.addColumn('number', 'grep_agulha-2');
+		data.addColumn('number', 'pmt_agulha-1');
+		data.addColumn('number', 'pmt_agulha-2');
+
+		data.addRows([
+			[50,  0.978, 1.374, 0.431, 0.465],
+			[100,  1.962, 2.832, 0.856, 0.947],
+			[200,  3.997, 5.283, 1.736, 1.835],
+			[1200,  23.922, 32.138, 10.227, 10.367],
+			]);
+		var options = {
+				title: 'Busca Exata - Único padrão',
+				subtitle: 'em segundos',
+				 hAxis: {
+          title: 'Tamanho (MB)'
+        },
+        vAxis: {
+          title: 'Tempo (s)'
+        },
+	        // width: 900,
+	        height: 500
+	    };
+
+	    var chart = new google.visualization.LineChart(document.getElementById('chart_single_exact'));
+
+	    chart.draw(data, options);
+	}
+
+	function drawExactMultiple(){
+		var data = new google.visualization.DataTable();
+		data.addColumn('number', 'Tamanho (MB)')
+		data.addColumn('number', 'pmt_agulha-1,2,3,4');
+		data.addColumn('number', 'pmt_agulha-1,5');
+
+		data.addRows([
+			[50,  0.564, 0.580],
+			[100,  1.099, 1.146],
+			[200,  2.192, 2.288],
+			[1200,  12.525, 12.835],
+			]);
+		var options = {
+				title: 'Busca Exata - Múltiplos padrões',
+				subtitle: 'em segundos',
+	        // width: 900,
+	        		 hAxis: {
+          title: 'Tamanho (MB)'
+        },
+        vAxis: {
+          title: 'Tempo (s)'
+        },
+	    
+	        height: 500
+	    };
+
+	    var chart = new google.visualization.LineChart(document.getElementById('chart_multiple_exact'));
+
+	    chart.draw(data, options);
+	}
+
+	function drawApproximateSingle(){
+		var data = new google.visualization.DataTable();
+		data.addColumn('number', 'Tamanho (MB)')
+		data.addColumn('number', 'pmt_agulha-1,2,3,4');
+		data.addColumn('number', 'pmt_agulha-1,5');
+
+		data.addRows([
+			[50,  2.283, 5.252],
+			[100,  4.680, 11.694],
+			[200,  9.202, 23.127],
+			[1200,  50.975, 127.928],
+			]);
+		var options = {
+				title: 'Busca Aproximada - Um padrão',
+				subtitle: 'em segundos',
+	        // width: 900,
+	        		 hAxis: {
+          title: 'Tamanho (MB)'
+        },
+        vAxis: {
+          title: 'Tempo (s)'
+        },
+	    
+	        height: 500
+	    };
+
+	    var chart = new google.visualization.LineChart(document.getElementById('chart_single_approximate'));
+
+	    chart.draw(data, options);
+	}
+
+	google.load('visualization', '1.1', {packages: ['corechart', 'line']});
+	google.setOnLoadCallback(drawGraphs);
+</script>
 
 
 
