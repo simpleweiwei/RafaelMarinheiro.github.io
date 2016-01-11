@@ -10,7 +10,7 @@ title: Indexed Matching
 	<img width="80%" src="img/banner.png"></img>
 </figure>
 
-#Index Matching
+#Indexed Matching
 
 Esse projeto foi desenvolvido como projeto da disciplina [IF767 - Processamento de Cadeia de Caracteres](http://www.cin.ufpe.br/~paguso/courses/if767/2015-2/). O relatório também está disponível [aqui](http://rafaelmarinheiro.github.io/projects/indexed_matching/pt_br/)
 
@@ -155,7 +155,7 @@ A nossa implementação permite utilizar métodos de compressão diferentes para
 
 ## Algoritmos de Busca
 
-A consulta ao índice é exige que apenas alguns items estejam na memória. No nosso caso, mantemos na memória apenas o header, o array $$SAIDX$$, alguns bloco $$SABLOCK{i}$$ e alguns blocos $$TXTBLOCK_{i}$$. Note que todos os items consomem $$O(\sqrt{n})$$ de memória, logo o programa precisa consumir apenas $$O(\sqrt{n})$$ para fazer uma consulta ao texto. Ou seja, com alguns poucos megabytes de RAM (2^20 bytes, por exemplo), conseguiríamos fazer consultas a arquivos com alguns terabytes de informação (2^40 bytes, por exemplo). 
+A consulta ao índice é exige que apenas alguns items estejam na memória. No nosso caso, mantemos na memória apenas o header, o array $$SAIDX$$, alguns bloco $$SABLOCK_{i}$$ e alguns blocos $$TXTBLOCK_{i}$$. Note que todos os items consomem $$O(\sqrt{n})$$ de memória, logo o programa precisa consumir apenas $$O(\sqrt{n})$$ para fazer uma consulta ao texto. Ou seja, com alguns poucos megabytes de RAM (2^20 bytes, por exemplo), conseguiríamos fazer consultas a arquivos com alguns terabytes de informação (2^40 bytes, por exemplo). 
 
 ### Caching
 
@@ -165,225 +165,384 @@ Apesar de, em tese, precisarmos manter apenas um bloco $$SABLOCK_{i}$$ e um bloc
 
 Para tratar as quebras de linha, guardamos um array com os índices dos ```\n```. Para encontrarmos a linha de um match, fazendo uma busca binária nesse array. Desse modo, encontramos o início e o fim das linhas do match. Desse modo, poderíamos facilmente mostrar imprimir toda a linha. Note, porém, que algum dos arquivos utilizados possuem linhas muito grandes. Por essa razão, nós imprimimos no máximo 80 caracteres antes e depois do match. Esse valor pode ser modificado utilizando uma flag.
 
-## Micro-Otimizações
-Todos os algoritmos são online, isto é, eles nunca precisam reutilizar alguma informação anterior do texto para executar. Apesar disso, alocamos um pequeno buffer para guardar parte do texto. Além disso, encapsulamos a leitura dos arquivos com objetos ```bufio.Reader``` com um buffer interno de 400KB. Fizemos isso numa tentativa de minimizar o overhead de múltiplas chamadas ao método ```Read```.  
-
-Algumas otimizações foram utilizadas na implementação do Aho-Corasick e do algoritmo de Sellers. No Aho-Corasick inicialmente armazenávamos os filhos de um nó da trie dentro de um ```map[byte]int``` (estrutura nativa de Go). Porém, ao notarmos que os acessos ao map estavam relativamente lentos, trocamos essa estrutura de dados por um array com 255 posições ```[256]int```. 
-
-No caso do Algoritmo de Sellers, inicialmente guardávamos as duas colunas em arrays separados. Após testes, resolvemos guardar as informações em um único array de forma alternada. Desse modo, precisávamos utilizar apenas uma pequena parte do array, otimizando o acesso à cache:
-
-{% highlight go %}
-//Before////////////////////////
-dist    [2][]int //Each slice has size n+1
-distptr int
-
-//Using
-cur := distptr
-old := 1-cur
-
-dist[cur][i]
-dist[old][i]
-
-
-//After/////////////////////////
-dist    []int //A slice with size 2*(n+1)
-distptr int
-
-//Using
-cur := distptr
-old := 1-cur
-
-dist[2*i+cur]
-dist[2*i+old]
-
-{% endhighlight %}
 
 # Testes
 
-Testes foram executados com duas bases de dados do [Pizza&Chilli Protein](http://pizzachili.dcc.uchile.cl/texts/protein/). Os testes foram realizados em um MacBook Pro Retina de 13 polegadas, modelo Late 2013, com um processador Intel Core i5 de 2.4GHz, 8GB de memória RAM DDR3 a 1600MHz rodando o sistema operacional OS X El Capitan. Todos os tempos foram medidos utilizando o comando ```time``` O programa foi compilado utilizando a versão 1.5 do compilador de Go. 
+Testes foram executados com as bases de dados do [Pizza&Chilli](http://pizzachili.dcc.uchile.cl/texts.html). Os testes foram realizados em um MacBook Pro Retina de 13 polegadas, modelo Late 2013, com um processador Intel Core i5 de 2.4GHz, 8GB de memória RAM DDR3 a 1600MHz rodando o sistema operacional OS X El Capitan. Todos os tempos foram medidos utilizando o a biblioteca ```time``` da stdlib de Go. Os testes são executados chamando a função ```os.Exec```, o que corresponde à chamada ```SYSTEM``` de C. O script de testes está disponibilizado junto com o código. O programa foi compilado utilizando a versão 1.5 do compilador de Go. 
 
-Todos os experimentos foram feitos utilizando a flag ```-s```. Desse modo, a saída do algoritmo retorna apenas a lista dos matches, sem nenhuma informação adicional. O comando ```grep``` também é executado com a flag ```-o``` como controle
-
-Os experimentos e resultados serão detalhados a seguir:
-
-### Padrões
-
-|  ID |                       Agulha                       |
-| --- | :------------------------------------------------- |
-|   1 | WHEY                                               |
-|   2 | PASPRSSRGAGPVP                                     |
-|   3 | PASPRSSRGAGPVPCAAPPQRAVLASPRSVRGGPKPPGRGGARASGGAAG |
-|   4 | PASPRSSRGAGPVPCAAPPQRAVLASPRSVRGGPKPPGRGGARASGGAAA |
-|   5 | RAFAEL                                             |
+Todos os experimentos foram feitos utilizando a flag ```-c```. Desse modo, a saída do algoritmo retorna apenas o número de matches, sem nenhuma informação adicional
 	
-### Busca Exata - Um padrão
+### Construção
 
-<div class="rfm-chart" id="chart_single_exact"></div>
+<div class="rfm-chart" id="chart_construction_time"></div>
 
-| Comando | Agulha |     Palheiro    | Ocorrências | Tempo Médio* |
-| ------- | ------ | --------------- | ----------: | -----------: |
-| grep -o |      1 | proteins.50MB   |          19 |       0.978s |
-| grep -o |      1 | proteins.100MB  |          33 |       1.962s |
-| grep -o |      1 | proteins.200MB  |         113 |       3.997s |
-| grep -o |      1 | proteins.1200MB |         424 |      23.922s |
-| pmt -s  |      1 | proteins.50MB   |          19 |       0.431s |
-| pmt -s  |      1 | proteins.100MB  |          33 |       0.856s |
-| pmt -s  |      1 | proteins.200MB  |         113 |       1.736s |
-| pmt -s  |      1 | proteins.1200MB |         424 |      10.227s |
-| grep -o |      2 | proteins.50MB   |           2 |       1.374s |
-| grep -o |      2 | proteins.100MB  |           2 |       2.832s |
-| grep -o |      2 | proteins.200MB  |           2 |       5.283s |
-| grep -o |      2 | proteins.1200MB |           3 |      32.138s |
-| pmt -s  |      2 | proteins.50MB   |           2 |       0.465s |
-| pmt -s  |      2 | proteins.100MB  |           2 |       0.947s |
-| pmt -s  |      2 | proteins.200MB  |           2 |       1.835s |
-| pmt -s  |      2 | proteins.1200MB |           3 |      10.367s |
+<div id="table_construction_time"></div>
 
-### Busca Exata - Múltiplos Padrões
+### Tamanho do índice
 
-<div class="rfm-chart" id="chart_multiple_exact"></div>
+<div class="rfm-chart" id="chart_index_size"></div>
 
-|  Comando  |   Agulha   |     Palheiro    | Ocorrências | Tempo Médio* |
-| --------- | ---------- | --------------- | ----------: | -----------: |
-| pmt -s -p | 1, 2, 3, 4 | proteins.50MB   |          24 |       0.564s |
-| pmt -s -p | 1, 2, 3, 4 | proteins.100MB  |          37 |       1.099s |
-| pmt -s -p | 1, 2, 3, 4 | proteins.200MB  |         117 |       2.192s |
-| pmt -s -p | 1, 2, 3, 4 | proteins.1200MB |         430 |      12.525s |
-| pmt -s -p | 1, 5       | proteins.50MB   |          26 |       0.580s |
-| pmt -s -p | 1, 5       | proteins.100MB  |          47 |       1.146s |
-| pmt -s -p | 1, 5       | proteins.200MB  |         142 |       2.288s |
-| pmt -s -p | 1, 5       | proteins.1200MB |         536 |      12.835s |
+<div id="table_index_size"></div>
 
-### Busca Aproximada - Um padrão
+### Tempo de Query
 
-<div class="rfm-chart" id="chart_single_approximate"></div>
+<div class="rfm-chart" id="chart_query_time"></div>
 
-|  Comando  | Distância | Agulha |     Palheiro    | Ocorrências | Tempo Médio* |
-| --------- | --------- | ------ | --------------- | ----------: | -----------: |
-| pmt -s -e |         1 |      5 | proteins.50MB   |        1376 |       2.283s |
-| pmt -s -p |         1 |      5 | proteins.100MB  |        2633 |       4.680s |
-| pmt -s -p |         1 |      5 | proteins.200MB  |        4706 |       9.202s |
-| pmt -s -p |         1 |      5 | proteins.1200MB |       23987 |      50.975s |
-| pmt -s -p |         4 |      2 | proteins.50MB   |          20 |       5.252s |
-| pmt -s -p |         4 |      2 | proteins.100MB  |          22 |      11.694s |
-| pmt -s -p |         4 |      2 | proteins.200MB  |          24 |      23.127s |
-| pmt -s -p |         4 |      2 | proteins.1200MB |          56 |      127.928 |
+<div id="table_query_time"></div>
 
-### Busca Aproximada - Múltiplos Padrões
 
-A Busca Aproximada de Múltiplos padrões foi implementada simplesmente chamando várias vezes a Busca Aproximada de um único padrão. Logo, esperamos que o desempenho seja equivalente.
 
 # Conclusões
 
-Acreditamos que o resultado obtido foi satisfatório. Em todos os testes efetuados, a nossa implementação foi substancialmente mais rápida que a implementação do ```grep```. Além disso, o processo ```pmt``` nunca chegou a consumir mais que 400K de memória durante a sua execução, mostrando que ele de fato pode ser utilizado em palheiros arbitrariamente grandes com sucesso.
-
-Poderíamos ter utilizado um algoritmo mais eficiente para realizar a busca aproximada. Posteriormente, implementaremos uma versão do algoritmo [Bitap](https://en.wikipedia.org/wiki/Bitap_algorithm).
+Considerando que o nosso objetivo era minimizar o tempo de query e também minimizar o consumo de memória, acreditamos que o resultado foi satisfatório. Em todos os testes efetuados, a nossa implementação executou as queries em menos de 50ms. Além disso, o processo ```barsa``` nunca chegou a consumir mais que 7MB de memória durante a sua execução, mostrando que ele de fato pode ser utilizado em índices arbitrariamente grandes com sucesso. Note que, em média, 6MB desses 7MB são utilizados para guardar o array com offsets das linhas. É possível ainda otimizar a estrutura do índice para utilizar garantidamente menos de 1MB de memória.
 
 <link rel="stylesheet" href="css/table.css">
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 <script type="text/javascript">
 	function drawGraphs(){
-		drawExactSingle();
-		drawExactMultiple();
-		drawApproximateSingle();
+		construction_time();
+		index_size();
+		query_time();
 	}
 
-	function drawExactSingle(){
-		var data = new google.visualization.DataTable();
-		data.addColumn('number', 'Tamanho (MB)')
-		data.addColumn('number', 'grep_agulha-1');
-		data.addColumn('number', 'grep_agulha-2');
-		data.addColumn('number', 'pmt_agulha-1');
-		data.addColumn('number', 'pmt_agulha-2');
+	function construction_time(){
+		$.getJSON("../data/sa.json", function(table){
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', "Nome");
+			data.addColumn("number", "Tamanho (MB)");
+			data.addColumn("number", "Tempo (s)");
 
-		data.addRows([
-			[50,  0.978, 1.374, 0.431, 0.465],
-			[100,  1.962, 2.832, 0.856, 0.947],
-			[200,  3.997, 5.283, 1.736, 1.835],
-			[1200,  23.922, 32.138, 10.227, 10.367],
-			]);
-		var options = {
+			var t = [];
+
+			for(var i = 0; i < table.length; i++){
+				t.push([table[i][0], (table[i][1]+0.0)/(1024.0*1024.0), table[i][2]]);
+			}
+
+			data.addRows(t);
+
+			var options = {
 				title: 'Busca Exata - Único padrão',
 				subtitle: 'em segundos',
-				 hAxis: {
-          title: 'Tamanho (MB)'
-        },
-        vAxis: {
-          title: 'Tempo (s)'
-        },
-	        // width: 900,
-	        height: 500
-	    };
-
-	    var chart = new google.visualization.LineChart(document.getElementById('chart_single_exact'));
-
-	    chart.draw(data, options);
-	}
-
-	function drawExactMultiple(){
-		var data = new google.visualization.DataTable();
-		data.addColumn('number', 'Tamanho (MB)')
-		data.addColumn('number', 'pmt_agulha-1,2,3,4');
-		data.addColumn('number', 'pmt_agulha-1,5');
-
-		data.addRows([
-			[50,  0.564, 0.580],
-			[100,  1.099, 1.146],
-			[200,  2.192, 2.288],
-			[1200,  12.525, 12.835],
-			]);
-		var options = {
-				title: 'Busca Exata - Múltiplos padrões',
-				subtitle: 'em segundos',
-	        // width: 900,
-	        		 hAxis: {
-          title: 'Tamanho (MB)'
-        },
-        vAxis: {
-          title: 'Tempo (s)'
-        },
-	    
-	        height: 500
-	    };
-
-	    var chart = new google.visualization.LineChart(document.getElementById('chart_multiple_exact'));
-
-	    chart.draw(data, options);
-	}
-
-	function drawApproximateSingle(){
-		$.getJSON("../data/varint.json", function(table){
-			var data = new google.visualization.DataTable();
-			data.addColumn('number', 'Número')
-			data.addColumn('number', 'int32');
-			data.addColumn('number', 'varint');
-			data.addColumn('number', 'optimal');
-			data.addRows(table);
-			var options = {
-					title: 'Busca Aproximada - Um padrão',
-					subtitle: 'em segundos',
+				hAxis: {
+		          title: 'Tamanho (KB)'
+		        },
+		        vAxis: {
+		          title: 'Tempo (s)'
+		        },
 		        // width: 900,
-		        		 hAxis: {
-	          title: 'Tamanho (MB)'
-	        },
-	        vAxis: {
-	          title: 'Tempo (s)'
-	        },
-		    
-		        height: 500
+		        // height: 500,
+		        width: '100%'
 		    };
 
-		    var chart = new google.visualization.LineChart(document.getElementById('chart_single_approximate'));
+		    var chart = new google.visualization.Table(document.getElementById('table_construction_time'));
 
 		    chart.draw(data, options);
-		}).fail(function( jqxhr, textStatus, error ) {
-    var err = textStatus + ", " + error;
-    console.log( "Request Failed: " + err );
-});
+		});
+
+		$.getJSON("../data/sa.json", function(table){
+			var data = new google.visualization.DataTable();
+			data.addColumn('number', "Tamanho (MB)");
+			data.addColumn("number", "English (s)");
+			data.addColumn("number", "Sources (s)");
+			data.addColumn("number", "Proteins (s)");
+			data.addColumn("number", "DNA (s)");
+
+			var t = [];
+
+			for(var i = 0; i+4 <= table.length; i += 4){
+				t.push([
+						 (table[i][1]+0.0)/(1024.0*1024.0),
+						 table[i][2],
+					 	 table[i+1][2],
+				 		 table[i+2][2],
+			 			 table[i+3][2]
+			 			]);
+			}
+
+			console.log(t);
+
+			data.addRows(t);
+
+			var options = {
+				title: 'Tempo de Construção',
+				subtitle: 'em segundos',
+				hAxis: {
+		          title: 'Tamanho (MB)'
+		        },
+		        vAxis: {
+		          title: 'Tempo (s)'
+		        },
+		        // width: 900,
+		        height: 500,
+		        width: '100%'
+		    };
+
+		    var chart = new google.visualization.LineChart(document.getElementById('chart_construction_time'));
+
+		    chart.draw(data, options);
+		});
 	}
 
-	google.load('visualization', '1.1', {packages: ['corechart', 'line']});
+	function index_size(){
+		console.log("INDEX_SIZE");
+		$.getJSON("../data/sa.json", function(table){
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', "Nome");
+			data.addColumn("number", "Tamanho Original (MB)");
+			data.addColumn("number", "Tamanho Final (MB)");
+
+			var t = [];
+
+			for(var i = 0; i < table.length; i++){
+				t.push([table[i][0], 
+						(table[i][1]*1.0)/(1024.0*1024.0),
+						(table[i][3]*1.0)/(1024.0*1024.0)
+						]);
+			}
+
+			data.addRows(t);
+
+			var options = {
+				title: 'Tamanho do índice',
+				subtitle: 'em MB',
+				hAxis: {
+		          title: 'Tamanho Original (MB)'
+		        },
+		        vAxis: {
+		          title: 'Tamanho Final (MB)'
+		        },
+		        // width: 900,
+		        // height: 500,
+		        width: '100%'
+		    };
+
+		    var chart = new google.visualization.Table(document.getElementById('table_index_size'));
+
+		    chart.draw(data, options);
+		});
+
+		$.getJSON("../data/sa.json", function(table){
+			var data = new google.visualization.DataTable();
+			data.addColumn('number', "Tamanho (MB)");
+			data.addColumn("number", "English (MB)");
+			data.addColumn("number", "Sources (MB)");
+			data.addColumn("number", "Proteins (MB)");
+			data.addColumn("number", "DNA (MB)");
+
+			var t = [];
+
+			for(var i = 0; i+4 <= table.length; i += 4){
+				t.push([
+						 (table[i][1]+0.0)/(1024.0*1024.0),
+						 (table[i][3]*1.0)/(1024.0*1024.0),
+					 	 (table[i+1][3]*1.0)/(1024.0*1024.0),
+				 		 (table[i+2][3]*1.0)/(1024.0*1024.0),
+			 			 (table[i+3][3]*1.0)/(1024.0*1024.0)
+			 			]);
+			}
+
+			console.log(t);
+
+			data.addRows(t);
+
+			var options = {
+				title: 'Tamanho do índice',
+				subtitle: 'em MB',
+				hAxis: {
+		          title: 'Tamanho Original (MB)'
+		        },
+		        vAxis: {
+		          title: 'Tamanho Final (MB)'
+		        },
+		        // width: 900,
+		        height: 500,
+		        width: '100%'
+		    };
+
+		    var chart = new google.visualization.LineChart(document.getElementById('chart_index_size'));
+
+		    chart.draw(data, options);
+		});
+	}
+
+	function query_time(){
+		console.log("QUERY_TIME");
+		$.getJSON("../data/sa.json", function(table){
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', "Nome");
+			data.addColumn("number", "Tamanho Original (MB)");
+			data.addColumn("number", "Tempo Query (ms)");
+
+			var t = [];
+
+			for(var i = 0; i < table.length; i++){
+				t.push([table[i][0], 
+						(table[i][1]*1.0)/(1024.0*1024.0),
+						(table[i][4]*1000.0)
+						]);
+			}
+
+			data.addRows(t);
+
+			var options = {
+				title: 'Tempo de Query',
+				subtitle: 'em ms',
+				hAxis: {
+		          title: 'Tamanho (MB)'
+		        },
+		        vAxis: {
+		          title: 'Tempo (ms)'
+		        },
+		        // width: 900,
+		        // height: 500,
+		        width: '100%'
+		    };
+
+		    var chart = new google.visualization.Table(document.getElementById('table_query_time'));
+
+		    chart.draw(data, options);
+		});
+
+		$.getJSON("../data/sa.json", function(table){
+			var data = new google.visualization.DataTable();
+			data.addColumn('number', "Tamanho (MB)");
+			data.addColumn("number", "English (ms)");
+			data.addColumn("number", "Sources (ms)");
+			data.addColumn("number", "Proteins (ms)");
+			data.addColumn("number", "DNA (ms)");
+
+			var t = [];
+
+			for(var i = 0; i+4 <= table.length; i += 4){
+				t.push([
+						 (table[i][1]+0.0)/(1024.0*1024.0),
+						 (table[i][4]*1000.0),
+					 	 (table[i+1][4]*1000.0),
+				 		 (table[i+2][4]*1000.0),
+			 			 (table[i+3][4]*1000.0)
+			 			]);
+			}
+
+			console.log(t);
+
+			data.addRows(t);
+
+			var options = {
+				title: 'Tempo de Query',
+				subtitle: 'em ms',
+				hAxis: {
+		          title: 'Tamanho (MB)'
+		        },
+		        vAxis: {
+		          title: 'Tempo (ms)'
+		        },
+		        // width: 900,
+		        height: 500,
+		        width: '100%'
+		    };
+
+		    var chart = new google.visualization.LineChart(document.getElementById('chart_query_time'));
+
+		    chart.draw(data, options);
+		});
+	}
+
+// 	function drawExactSingle(){
+// 		var data = new google.visualization.DataTable();
+// 		data.addColumn('number', 'Tamanho (MB)')
+// 		data.addColumn('number', 'grep_agulha-1');
+// 		data.addColumn('number', 'grep_agulha-2');
+// 		data.addColumn('number', 'pmt_agulha-1');
+// 		data.addColumn('number', 'pmt_agulha-2');
+
+// 		data.addRows([
+// 			[50,  0.978, 1.374, 0.431, 0.465],
+// 			[100,  1.962, 2.832, 0.856, 0.947],
+// 			[200,  3.997, 5.283, 1.736, 1.835],
+// 			[1200,  23.922, 32.138, 10.227, 10.367],
+// 			]);
+// 		var options = {
+// 				title: 'Busca Exata - Único padrão',
+// 				subtitle: 'em segundos',
+// 				 hAxis: {
+//           title: 'Tamanho (MB)'
+//         },
+//         vAxis: {
+//           title: 'Tempo (s)'
+//         },
+// 	        // width: 900,
+// 	        height: 500
+// 	    };
+
+// 	    var chart = new google.visualization.LineChart(document.getElementById('chart_single_exact'));
+
+// 	    chart.draw(data, options);
+// 	}
+
+// 	function drawExactMultiple(){
+// 		var data = new google.visualization.DataTable();
+// 		data.addColumn('number', 'Tamanho (MB)')
+// 		data.addColumn('number', 'pmt_agulha-1,2,3,4');
+// 		data.addColumn('number', 'pmt_agulha-1,5');
+
+// 		data.addRows([
+// 			[50,  0.564, 0.580],
+// 			[100,  1.099, 1.146],
+// 			[200,  2.192, 2.288],
+// 			[1200,  12.525, 12.835],
+// 			]);
+// 		var options = {
+// 				title: 'Busca Exata - Múltiplos padrões',
+// 				subtitle: 'em segundos',
+// 	        // width: 900,
+// 	        		 hAxis: {
+//           title: 'Tamanho (MB)'
+//         },
+//         vAxis: {
+//           title: 'Tempo (s)'
+//         },
+	    
+// 	        height: 500
+// 	    };
+
+// 	    var chart = new google.visualization.LineChart(document.getElementById('chart_multiple_exact'));
+
+// 	    chart.draw(data, options);
+// 	}
+
+// 	function drawApproximateSingle(){
+// 		$.getJSON("../data/varint.json", function(table){
+// 			var data = new google.visualization.DataTable();
+// 			data.addColumn('number', 'Número')
+// 			data.addColumn('number', 'int32');
+// 			data.addColumn('number', 'varint');
+// 			data.addColumn('number', 'optimal');
+// 			data.addRows(table);
+// 			var options = {
+// 					title: 'Busca Aproximada - Um padrão',
+// 					subtitle: 'em segundos',
+// 		        // width: 900,
+// 		        		 hAxis: {
+// 	          title: 'Tamanho (MB)'
+// 	        },
+// 	        vAxis: {
+// 	          title: 'Tempo (s)'
+// 	        },
+		    
+// 		        height: 500
+// 		    };
+
+// 		    var chart = new google.visualization.LineChart(document.getElementById('chart_single_approximate'));
+
+// 		    chart.draw(data, options);
+// 		}).fail(function( jqxhr, textStatus, error ) {
+//     var err = textStatus + ", " + error;
+//     console.log( "Request Failed: " + err );
+// });
+// 	}
+
+	google.load('visualization', '1.1', {packages: ['corechart', 'line', 'table']});
 	google.setOnLoadCallback(drawGraphs);
 </script>
 
